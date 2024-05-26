@@ -4,7 +4,7 @@ import logging
 
 app = Flask(__name__)
 
-# Configure logging
+
 logging.basicConfig(level=logging.DEBUG)
 
 @app.route('/')
@@ -20,13 +20,11 @@ def dijkstra():
         
         logging.debug(f"Received request to find path from {start} to {end}")
 
-        # Call the C++ executable with start and end nodes as arguments
         result = subprocess.check_output(['./metro_journey', str(start), str(end)])
         result = result.decode('utf-8')
 
         logging.debug(f"Result from subprocess: {result}")
 
-        # Parse the output
         lines = result.split('\n')
         distance = lines[0].split(": ")[1]
         path = lines[1].split(": ")[1]
