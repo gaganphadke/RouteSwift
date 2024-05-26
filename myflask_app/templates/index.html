@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bengaluru Metro Journey Planner</title>
+    <script>
+        function findPath() {
+            var start = document.getElementById('start').value;
+            var end = document.getElementById('end').value;
+
+            fetch('/dijkstra', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ start: start, end: end })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert('Error: ' + data.error);
+                    } else {
+                        document.getElementById('result').innerHTML =
+                            '<center/><b>Distance: ' + data.distance + '</b><br><br>' +
+                            '<b>Path: </b>' + data.path;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+            background-color: rgb(234, 220, 255);
+            opacity: 1;
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR55qh4wlLLuCZTLGx098mwQOA6Tr-FXjfbHK-JxVpp7w&s');
+            background-repeat: no-repeat;
+            background-size: 200px;
+        }
+
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 38%;
+
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #result p {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        #result .path {
+            font-weight: bold;
+        }
+
+        #station-list {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+        }
+
+        #station-list ul {
+            list-style-type: none;
+            padding: 0;
+            
+        }
+
+        #station-list li {
+            margin-bottom: 5px;
+        }
+
+        #station-list span {
+            font-weight: bold;
+        }
+
+        .column {
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Bengaluru Metro Journey Planner</h1>
+    <form onsubmit="event.preventDefault(); findPath();">
+        <label for="start">Start Station ID:</label>
+        <input type="text" id="start" name="start" required>
+        <br>
+        <label for="end">End Station ID:</label>
+        <input type="text" id="end" name="end" required>
+        <br>
+        <button type="submit">Find Path</button>
+    </form>
+    <div id="result"></div>
+
+    <!-- ID-station name list -->
+    
+    <h2>Station List</h2>
+    <div id="station-list">
+        <div class="column">
+            <ul>
+                <li><h3 style="color: green; text-decoration: underline;">Green Line:</h3></li>
+                <li><h3>New additions:</h3></li>
+                <li><span>56:</span>Konankunte Cross</li>
+                <li><span>57:</span>Doddakallasandra</li>
+                <li><span>58:</span>Vajarahalli</li>
+                <li><span>59:</span>Talaghattapura</li>
+                <li><span>60:</span>Silk Institute</li>
+                <br>
+                <li><span>00:</span> Yelachenahalli</li>
+                <li><span>01:</span> JP Nagar</li>
+                <li><span>02:</span> Banashankari</li>
+                <li><span>03:</span> Rashtriya Vidyalaya Road</li>
+                <li><span>04:</span> Jayanagar</li>
+                <li><span>05:</span> South End Circle</li>
+                <li><span>06:</span> Lalbagh</li>
+                <li><span>07:</span> National College</li>
+                <li><span>08:</span> KR Market</li>
+                <li><span>09:</span> Chikpet</li>
+                <li><span>10:</span> Majestic</li>
+                <li><span>11:</span> Sampige Road</li>
+                <li><span>12:</span> Srirampura</li>
+                <li><span>13:</span> Kuvempu Road</li>
+                <li><span>14:</span> Rajajinagar</li>
+                <li><span>15:</span> Mahalaxmi</li>
+                <li><span>16:</span> Nagasandra</li>
+                <li><span>17:</span> Sandal Soap Factory</li>
+                <li><span>18:</span> Yeshwantpur</li>
+                <li><span>19:</span> Gorguntepalya</li>
+                <li><span>20:</span> Peenya</li>
+                <li><span>21:</span> Peenya Industry</li>
+                <li><span>22:</span> Jalahalli</li>
+                <li><span>23:</span> Dasarahalli</li>
+                <li><span>24:</span> Nagasandra</li>
+            </ul>
+        </div>
+
+        <div class="column">
+            <ul>
+                <li><h3 style="color: purple; text-decoration: underline;">Purple Line:</h3></li>
+                <li><span>25:</span> Baiyappanahalli</li>
+                <li><span>26:</span> Swami Vivekananda Road</li>
+                <li><span>27:</span> Indiranagar</li>
+                <li><span>28:</span> Halasuru</li>
+                <li><span>29:</span> Trinity</li>
+                <li><span>30:</span> MG Road</li>
+                <li><span>31:</span> Cubbon Park</li>
+                <li><span>32:</span> Vidhana Soudha</li>
+                <li><span>33:</span> Sir M Visveswaraya</li>
+                <li><span>34:</span> City Railway Station</li>
+                <li><span>35:</span> Magadi Road</li>
+                <li><span>36:</span> Hosahalli</li>
+                <li><span>37:</span> Vijaynagar</li>
+                <li><span>38:</span> Attiguppe</li>
+                <li><span>39:</span> Deepanjali Nagar</li>
+                <li><span>40:</span> Mysore Road</li>
+            </ul>
+        </div>
+
+        <div class="column">
+            <ul>
+                <li><h3 style="color:rgb(198, 198, 0); text-decoration: underline;">Yellow Line:</h3></li>
+                <li><span>41:</span> Ragigudda</li>
+                <li><span>42:</span> Jayadeva</li>
+                <li><span>43:</span> BTM Layout</li>
+                <li><span>44:</span> Silkboard</li>
+                <li><span>45:</span> HSR Layout</li>
+                <li><span>46:</span> Oxford College</li>
+                <li><span>47:</span> Muneshwar Nagar</li>
+                <li><span>48:</span> Chikka Begur</li>
+                <li><span>49:</span> Basapura Road</li>
+                <li><span>50:</span> Hosa Road</li>
+                <li><span>51:</span> Electronic City 1</li>
+                <li><span>52:</span> Electronic City 2</li>
+                <li><span>53:</span> Hoskuru</li>
+                <li><span>54:</span> Hebbagodi</li>
+                <li><span>55:</span> Bommasandra</li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+
+</html>
